@@ -14,21 +14,24 @@
     </div>
     <div class="container">
         <div class="row">
-            <form action="/professores" method="POST">
+            <form th:object="${requisicaoNovoProfessor}" action="/professores" method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome:</label>
-                    <input id="name" type="text" class="form-control" name="name">
+                    <input id="name" type="text" th:errorclass="is-invalid" class="form-control" th:field ="*{name}">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="salary" class="form-label">Salário:</label>
-                    <input id="salary" type="number" class="form-control" name="salary" step="0.01">
+                    <input id="salary" type="number" th:errorclass="is-invalid" class="form-control" th:field ="*{salary}" step="0.01">
+                    <div class="invalid-feedback" th:errors="*{salary}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="statusProfessor" class="form-label">Status:</label>
-                    <select name="statusProfessor" id="statusProfessor" class="form-select">
-                        <option th:each="status : ${statusProfessor}"
+                    <select th:field ="*{statusProfessor}" id="statusProfessor" class="form-select">
+                        <option th:each="status : ${listStatusProfessor}"
                                 th:value="${status}" th:text="${status}"></option>
                     </select>
+                    <div class="invalid-feedback"></div>
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
                 <a href="javascript:history.back()"></a>

@@ -28,20 +28,25 @@ public class ProfessorController {
         return mv;
     }
 
-    @GetMapping("/professor/new")
-    public ModelAndView nnew(){
+    @GetMapping("/professores/new")
+    public ModelAndView nnew(){ //em vez de instanciar o mv dentro da classe, posso botar aqui e o spring coloca sozinho
         ModelAndView mv = new ModelAndView("professores/new");
-        mv.addObject("statusProfessor", StatusProfessor.values());
+        mv.addObject("requisicaoNovoProfessor", new RequisicaoNovoProfessor());
+        mv.addObject("listStatusProfessor", StatusProfessor.values());
         return mv;
     }
 
     @PostMapping("/professores")
-    public String create(@Valid RequisicaoNovoProfessor requisicao, BindingResult bindingResult){
+    public ModelAndView create(@Valid RequisicaoNovoProfessor requisicao, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:/professor/new";
+            ModelAndView mv = new ModelAndView("/professores/new");
+            mv.addObject("requisicao", new RequisicaoNovoProfessor());
+            mv.addObject("listStatusProfessor", StatusProfessor.values());
+            return mv;
         }
         Professor professor = requisicao.toProfessor();
         this.professorRepository.save(professor);
-        return "redirect:/professores";
+        ModelAndView mv = new ModelAndView("redirect:/professores");
+        return mv;
     }
 }
