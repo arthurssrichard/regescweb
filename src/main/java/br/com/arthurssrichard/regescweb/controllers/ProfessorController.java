@@ -6,6 +6,7 @@ import br.com.arthurssrichard.regescweb.models.StatusProfessor;
 import br.com.arthurssrichard.regescweb.repositories.ProfessorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -109,5 +111,27 @@ public class ProfessorController {
             return new ModelAndView("redirect:/professores");
         }
     }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        // Verifica se o professor com o ID fornecido existe no banco de dados
+        Optional<Professor> optionalProfessor = this.professorRepository.findById(id);
+
+        if (optionalProfessor.isPresent()) {
+            // Se o professor existir, prossegue para deletar
+            this.professorRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("mensagem", "Professor " + id + " deletado com sucesso");
+            redirectAttributes.addFlashAttribute("erro", false);
+        } else {
+            // Se o professor não existir, adiciona mensagem de erro ao redirecionamento
+            redirectAttributes.addFlashAttribute("mensagem", "Professor não encontrado no banco");
+            redirectAttributes.addFlashAttribute("erro", true);
+        }
+
+        return "redirect:/professores";
+    }
+
+
+
 
 }
