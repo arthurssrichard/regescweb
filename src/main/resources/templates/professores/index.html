@@ -22,8 +22,8 @@
             <td th:text="${professor.name}">Larry the Bird</td>
             <td th:text="${professor.salary}">1500</td>
             <td th:text="${professor.statusProfessor.toString()}">STATUS</td>
-            <td><a th:href="@{/professores/{professorId} (professorId = ${professor.id})}">Detalhes</a></td>
-            <td><a href="#">Editar</a></td>
+            <td><a th:href="@{/professores/{professorId}(professorId = ${professor.id})}">Detalhes</a></td>
+            <td><a th:href="@{/professores/{professorId}/edit(professorId = ${professor.id})}">Editar</a></td>
             <td><a href="#">Apagar</a></td>
         </tr>
 

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
-public class RequisicaoNovoProfessor {
+public class RequisicaoFormProfessor {
     @NotBlank
     @NotNull
     private String name; // em caso de erro: NotNull.RequisicaoNovoProfessor.nome
@@ -47,6 +47,24 @@ public class RequisicaoNovoProfessor {
         professor.setSalary(salary);
         professor.setStatusProfessor(statusProfessor);
         return professor;
+    }
+
+    public Professor toProfessor(Professor professor){
+        professor.setName(this.name);
+        professor.setSalary(this.salary);
+        professor.setStatusProfessor(this.statusProfessor);
+        return professor;
+    }
+
+    public boolean fromProfessor(Professor professor){
+        if(professor.getStatusProfessor() != null && professor.getName() != null && professor.getSalary() != null){
+            this.statusProfessor = professor.getStatusProfessor();
+            this.name = professor.getName();
+            this.salary = professor.getSalary();
+
+            return true;
+        }
+    return false;
     }
 
     @Override

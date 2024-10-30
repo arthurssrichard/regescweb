@@ -1,0 +1,26 @@
+<main class="container" th:fragment="form(requisicaoFormProfessor, action)">
+        <div class="row">
+            <form th:object="${requisicaoFormProfessor}" th:action="${action}" method="POST">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome:</label>
+                    <input id="name" type="text" th:errorclass="is-invalid" class="form-control" th:field ="*{name}">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salário:</label>
+                    <input id="salary" type="number" th:errorclass="is-invalid" class="form-control" th:field ="*{salary}" step="0.01">
+                    <div class="invalid-feedback" th:errors="*{salary}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="statusProfessor" class="form-label">Status:</label>
+                    <select th:field ="*{statusProfessor}" id="statusProfessor" class="form-select">
+                        <option th:each="status : ${listStatusProfessor}"
+                                th:value="${status}" th:text="${status}"></option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a href="javascript:history.back()"></a>
+            </form>
+        </div>
+</main>
